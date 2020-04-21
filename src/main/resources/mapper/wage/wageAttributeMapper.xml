@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycjd.payslip.dao.wage.IWageAttributeDao">
+    <!--########################################################################################################################-->
+    <select id="findWageAttributeListByCondition" parameterType="WageAttribute" resultType="WageAttribute">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('attributeName')">
+                             T.attribute_name,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from wage_attribute T
+        <where>
+              <if test="attributeName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='attributeName'">
+                             T.attribute_name like concat('%',#{attributeName},'%')
+                         </when>
+                         <otherwise>
+                             T.attribute_name=#{attributeName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findWageAttributeCountByCondition" parameterType="WageAttribute" resultType="long">
+        select count(*) from wage_attribute T
+        <where>
+              <if test="attributeName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='attributeName'">
+                             T.attribute_name like concat('%',#{attributeName},'%')
+                         </when>
+                         <otherwise>
+                             T.attribute_name=#{attributeName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findWageAttributeById" resultType="WageAttribute">
+        select * from wage_attribute where id=#{id}
+    </select>
+    <select id="findOneWageAttributeByCondition" parameterType="WageAttribute" resultType="WageAttribute">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('attributeName')">
+                             T.attribute_name,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from wage_attribute T
+        <where>
+              <if test="attributeName!=null">
+                 T.attribute_name=#{attributeName}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveWageAttribute" parameterType="WageAttribute">
+        insert into wage_attribute
+         (
+            id,
+            attribute_name,
+            update_time
+        ) values
+         (
+                #{id}
+                ,
+                #{attributeName}
+                ,
+                #{updateTime}
+         )
+    </insert>
+    <update id="updateWageAttribute" parameterType="WageAttribute">
+        update wage_attribute
+        <set>
+                    <if test="attributeName!=null ">
+                        attribute_name=#{attributeName},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteWageAttribute" >
+        delete from wage_attribute where id=#{id}
+    </delete>
+    <delete id="deleteWageAttributeByCondition" >
+        delete from wage_attribute
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="attributeName!=null">
+                and attribute_name=#{attributeName}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveWageAttribute" parameterType="WageAttribute">
+        INSERT INTO wage_attribute (  id,  attribute_name,  update_time)
+        VALUES
+        <foreach collection="list" item="wageAttribute" separator=",">
+            (  #{wageAttribute.id},  #{wageAttribute.attributeName},  #{wageAttribute.updateTime} )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

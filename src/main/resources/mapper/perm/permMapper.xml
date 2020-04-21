@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycjd.payslip.dao.perm.IPermDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('title')">
+                             T.title,
+                         </if>
+                         <if test="!pager.excludes.contains('icon')">
+                             T.icon,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('routeName')">
+                             T.route_name,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="title!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='title'">
+                            and T.title like concat('%',#{title},'%')
+                         </when>
+                         <otherwise>
+                            and T.title=#{title}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="icon!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='icon'">
+                            and T.icon like concat('%',#{icon},'%')
+                         </when>
+                         <otherwise>
+                            and T.icon=#{icon}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="parentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='parentId'">
+                            and T.parent_id like concat('%',#{parentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.parent_id=#{parentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="routeName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='routeName'">
+                            and T.route_name like concat('%',#{route_name},'%')
+                         </when>
+                         <otherwise>
+                            and T.route_name=#{route_name}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findPermListByCondition" parameterType="Perm" resultType="Perm">
+        select
+         <include refid="projection"/>
+         from perm T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findPermCountByCondition" parameterType="Perm" resultType="long">
+        select count(*) from perm T
+        <include refid="match"/>
+    </select>
+    <select id="findPermById" resultType="Perm">
+        select * from perm where id=#{id}
+    </select>
+    <select id="findOnePermByCondition" parameterType="Perm" resultType="Perm">
+        select
+         <include refid="projection"/>
+         from perm T
+        <include refid="match"/>
+    </select>
+    <insert id="savePerm" parameterType="Perm">
+        insert into perm
+         (
+            id,
+            title,
+            icon,
+            parent_id,
+            route_name
+        ) values
+         (
+                #{id}
+                ,
+                #{title}
+                ,
+                #{icon}
+                ,
+                #{parentId}
+                ,
+                #{routeName}
+                
+         )
+    </insert>
+    <update id="updatePerm" parameterType="Perm">
+        update perm
+        <set>
+                parent_id=#{parentId},
+                route_name=#{routeName},
+                title=#{title},
+                icon=#{icon}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deletePerm" >
+        delete from perm where id=#{id}
+    </delete>
+    <delete id="deletePermByCondition" >
+        delete T from perm T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSavePerm" parameterType="Perm">
+        INSERT INTO perm (  id,  title,  icon,  parent_id,  route_name )
+        VALUES
+        <foreach collection="list" item="perm" separator=",">
+            (  #{perm.id},  #{perm.title},  #{perm.icon},  #{perm.parentId},  #{perm.routeName}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+
+    <select id="findWorkTreeMenu" resultType="Perm">
+        SELECT P.* from worker W inner join work_role WR on W.id=WR.work_id
+                            inner join role R on WR.role_id=R.id
+                            inner join role_perm RP on R.id=RP.role_id
+                            inner join perm P on RP.perm_id=P.id
+                            where W.id=#{workId}
+                            group by P.id,P.title,P.icon,P.parent_id,P.route_name,P.sort_num
+                            order by P.id
+    </select>
+
+    <update id="batchUpdateSortNum">
+        <foreach collection="list" separator=";" item="perm">
+            update perm set
+            sort_num = #{perm.sortNum}
+            where id = #{perm.id}
+        </foreach>
+    </update>
+
+
+</mapper>

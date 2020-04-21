@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycjd.payslip.dao.breakoff.IBreakoffCheckDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('auditorId')">
+                             T.auditor_id,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('breakoffId')">
+                             T.breakoff_id,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                         <if test="!pager.excludes.contains('nextSort')">
+                             T.next_sort,
+                         </if>
+                         <if test="!pager.excludes.contains('auditTime')">
+                             T.audit_time,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                         <if test="!pager.excludes.contains('throughTime')">
+                             T.through_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="auditorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='auditorId'">
+                            and T.auditor_id like concat('%',#{auditorId},'%')
+                         </when>
+                         <otherwise>
+                            and T.auditor_id=#{auditorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="status!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='status'">
+                            and T.status like concat('%',#{status},'%')
+                         </when>
+                         <otherwise>
+                            and T.status=#{status}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="breakoffId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='breakoffId'">
+                            and T.breakoff_id like concat('%',#{breakoffId},'%')
+                         </when>
+                         <otherwise>
+                            and T.breakoff_id=#{breakoffId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="sort!=null">
+                    and T.sort=#{sort}
+              </if>
+              <if test="nextSort!=null">
+                    and T.next_sort=#{nextSort}
+              </if>
+              <if test="auditTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='auditTime'">
+                            and T.audit_time like concat('%',#{auditTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.audit_time=#{auditTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="remarks!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='remarks'">
+                            and T.remarks like concat('%',#{remarks},'%')
+                         </when>
+                         <otherwise>
+                            and T.remarks=#{remarks}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="throughTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='throughTime'">
+                            and T.through_time like concat('%',#{throughTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.through_time=#{throughTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findBreakoffCheckListByCondition" parameterType="BreakoffCheck" resultType="BreakoffCheck">
+        select
+         <include refid="projection"/>
+         from breakoff_check T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findBreakoffCheckCountByCondition" parameterType="BreakoffCheck" resultType="long">
+        select count(*) from breakoff_check T
+        <include refid="match"/>
+    </select>
+    <select id="findBreakoffCheckById" resultType="BreakoffCheck">
+        select * from breakoff_check where id=#{id}
+    </select>
+    <select id="findOneBreakoffCheckByCondition" parameterType="BreakoffCheck" resultType="BreakoffCheck">
+        select
+         <include refid="projection"/>
+         from breakoff_check T
+        <include refid="match"/>
+    </select>
+    <insert id="saveBreakoffCheck" parameterType="BreakoffCheck">
+        insert into breakoff_check
+         (
+            id,
+            auditor_id,
+            status,
+            breakoff_id,
+            sort,
+            next_sort,
+            audit_time,
+            remarks,
+            through_time
+        ) values
+         (
+                #{id}
+                ,
+                #{auditorId}
+                ,
+                #{status}
+                ,
+                #{breakoffId}
+                ,
+                #{sort}
+                ,
+                #{nextSort}
+                ,
+                #{auditTime}
+                ,
+                #{remarks}
+                ,
+                #{throughTime}
+                
+         )
+    </insert>
+    <update id="updateBreakoffCheck" parameterType="BreakoffCheck">
+        update breakoff_check
+        <set>
+                    <if test="auditorId!=null ">
+                        auditor_id=#{auditorId},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="breakoffId!=null ">
+                        breakoff_id=#{breakoffId},
+                    </if>
+                    <if test="sort!=null ">
+                        sort=#{sort},
+                    </if>
+                    <if test="nextSort!=null ">
+                        next_sort=#{nextSort},
+                    </if>
+                    <if test="auditTime!=null ">
+                        audit_time=#{auditTime},
+                    </if>
+                    <if test="remarks!=null ">
+                        remarks=#{remarks},
+                    </if>
+                    <if test="throughTime!=null ">
+                        through_time=#{throughTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteBreakoffCheck" >
+        delete from breakoff_check where id=#{id}
+    </delete>
+    <delete id="deleteBreakoffCheckByCondition" >
+        delete T from breakoff_check T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveBreakoffCheck" parameterType="BreakoffCheck">
+        INSERT INTO breakoff_check (  id,  auditor_id,  status,  breakoff_id,  sort,  next_sort,  audit_time,  remarks,  through_time )
+        VALUES
+        <foreach collection="list" item="breakoffCheck" separator=",">
+            (  #{breakoffCheck.id},  #{breakoffCheck.auditorId},  #{breakoffCheck.status},  #{breakoffCheck.breakoffId},  #{breakoffCheck.sort},  #{breakoffCheck.nextSort},  #{breakoffCheck.auditTime},  #{breakoffCheck.remarks},  #{breakoffCheck.throughTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <update id="updateBreakoffCheckByAuditor" parameterType="BreakoffCheck">
+        update breakoff_check
+        <set>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="auditorRemarks!=null ">
+                remarks=#{auditorRemarks},
+            </if>
+            <if test="throughTime!=null ">
+                through_time=#{throughTime}
+            </if>
+        </set>
+        where breakoff_id=#{breakoffId} and auditor_id=#{auditorId}
+    </update>
+
+    <update id="updateAllByAuditor" parameterType="BreakoffApplication">
+       update breakoff_check
+       set status=#{status},
+       through_time=#{throughTime}
+       where breakoff_id=#{id} and auditor_id=#{auditorId}
+    </update>
+
+    <select id="findWorkerRemainingTime" parameterType="BreakoffObj" resultType="BreakoffCheck">
+       SELECT SUM(T.audit_time) as myTime from breakoff_check T left join breakoff_application A on T.breakoff_id=A.id where A.applicant_id=#{applicantId} and T.status="1"
+    </select>
+
+    <update id="updateAuditTime" parameterType="BreakoffCheck">
+        update breakoff_check
+        set audit_time=#{auditTime}
+         where breakoff_id=#{breakoffId} and auditor_id=#{auditorId}
+    </update>
+    <delete id="deleteBreakoffCheckByBreakoffId" >
+        delete from breakoff_check where breakoff_id=#{id}
+    </delete>
+</mapper>

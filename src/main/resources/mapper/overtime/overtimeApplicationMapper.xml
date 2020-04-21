@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycjd.payslip.dao.overtime.IOvertimeApplicationDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('applicantId')">
+                             T.applicant_id,
+                         </if>
+                         <if test="!pager.excludes.contains('overtimeReason')">
+                             T.overtime_reason,
+                         </if>
+                         <if test="!pager.excludes.contains('startTime')">
+                             T.start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('endTime')">
+                             T.end_time,
+                         </if>
+                         <if test="!pager.excludes.contains('totalTime')">
+                             T.total_time,
+                         </if>
+                         <if test="!pager.excludes.contains('progress')">
+                             T.progress,
+                         </if>
+                         <if test="!pager.excludes.contains('availableTime')">
+                             T.available_time,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('personnelTime')">
+                             T.personnel_time,
+                         </if>
+                         <if test="!pager.excludes.contains('saveTime')">
+                             T.save_time,
+                         </if>
+                         <if test="!pager.excludes.contains('imgUrl')">
+                             T.img_url,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="applicantId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='applicantId'">
+                            and T.applicant_id like concat('%',#{applicantId},'%')
+                         </when>
+                         <otherwise>
+                            and T.applicant_id=#{applicantId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="overtimeReason!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='overtimeReason'">
+                            and T.overtime_reason like concat('%',#{overtimeReason},'%')
+                         </when>
+                         <otherwise>
+                            and T.overtime_reason=#{overtimeReason}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="startTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='startTime'">
+                            and T.start_time like concat('%',#{startTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.start_time=#{startTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="endTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='endTime'">
+                            and T.end_time like concat('%',#{endTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.end_time=#{endTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="totalTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='totalTime'">
+                            and T.total_time like concat('%',#{totalTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.total_time=#{totalTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="progress!=null">
+                    and T.progress=#{progress}
+              </if>
+              <if test="availableTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='availableTime'">
+                            and T.available_time like concat('%',#{availableTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.available_time=#{availableTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="status!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='status'">
+                            and T.status like concat('%',#{status},'%')
+                         </when>
+                         <otherwise>
+                            and T.status=#{status}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="del!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='del'">
+                            and T.del like concat('%',#{del},'%')
+                         </when>
+                         <otherwise>
+                            and T.del=#{del}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="remarks!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='remarks'">
+                            and T.remarks like concat('%',#{remarks},'%')
+                         </when>
+                         <otherwise>
+                            and T.remarks=#{remarks}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="personnelTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='personnelTime'">
+                            and T.personnel_time like concat('%',#{personnelTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.personnel_time=#{personnelTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="saveTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='saveTime'">
+                            and T.save_time like concat('%',#{saveTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.save_time=#{saveTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="imgUrl!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='imgUrl'">
+                            and T.img_url like concat('%',#{imgUrl},'%')
+                         </when>
+                         <otherwise>
+                            and T.img_url=#{imgUrl}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findOvertimeApplicationListByCondition" parameterType="OvertimeApplication" resultType="OvertimeApplication">
+        select
+         <include refid="projection"/>
+         from overtime_application T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+    </select>
+
+    <select id="findOvertimeApplicationCountByCondition" parameterType="OvertimeApplication" resultType="long">
+        select count(*) from overtime_application T
+        <where>
+            <if test="applicantId!=null ">
+                T.applicant_id=#{applicantId}
+            </if>
+            <if test="startTime!=null">
+                and T.start_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.end_time &lt; #{endTime}
+            </if>
+            <if test="status!=null">
+                and T.status =#{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="findOvertimeApplicationById" resultType="OvertimeApplication">
+        select * from overtime_application where id=#{id}
+    </select>
+
+    <select id="findOneOvertimeApplicationByCondition" parameterType="OvertimeApplication" resultType="OvertimeApplication">
+        select
+         <include refid="projection"/>
+         from overtime_application T
+        <include refid="match"/>
+    </select>
+
+    <insert id="saveOvertimeApplication" parameterType="OvertimeApplication">
+        insert into overtime_application
+         (
+            id,
+            applicant_id,
+            overtime_reason,
+            start_time,
+            end_time,
+            total_time,
+            progress,
+            available_time,
+            status,
+            del,
+            remarks,
+            create_time,
+            personnel_time,
+            save_time,
+            img_url
+        ) values
+         (
+                #{id}
+                ,
+                #{applicantId}
+                ,
+                #{overtimeReason}
+                ,
+                #{startTime}
+                ,
+                #{endTime}
+                ,
+                #{totalTime}
+                ,
+                #{progress}
+                ,
+                #{availableTime}
+                ,
+                #{status}
+                ,
+                #{del}
+                ,
+                #{remarks}
+                ,
+                now()
+                ,
+                #{personnelTime}
+                ,
+                #{saveTime}
+                ,
+                #{imgUrl}
+                
+         )
+    </insert>
+    <update id="updateOvertimeApplication" parameterType="OvertimeApplication">
+        update overtime_application
+        <set>
+                    <if test="applicantId!=null ">
+                        applicant_id=#{applicantId},
+                    </if>
+                    <if test="overtimeReason!=null ">
+                        overtime_reason=#{overtimeReason},
+                    </if>
+                    <if test="startTime!=null ">
+                        start_time=#{startTime},
+                    </if>
+                    <if test="endTime!=null ">
+                        end_time=#{endTime},
+                    </if>
+                    <if test="totalTime!=null ">
+                        total_time=#{totalTime},
+                    </if>
+                    <if test="progress!=null ">
+                        progress=#{progress},
+                    </if>
+                    <if test="availableTime!=null ">
+                        available_time=#{availableTime},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="remarks!=null ">
+                        remarks=#{remarks},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="personnelTime!=null ">
+                        personnel_time=#{personnelTime},
+                    </if>
+                    <if test="saveTime!=null ">
+                        save_time=#{saveTime},
+                    </if>
+                    <if test="imgUrl!=null ">
+                        img_url=#{imgUrl}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteOvertimeApplication" >
+        delete from overtime_application where id=#{id}
+    </delete>
+    <delete id="deleteOvertimeApplicationByCondition" >
+        delete T from overtime_application T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveOvertimeApplication" parameterType="OvertimeApplication">
+        INSERT INTO overtime_application (  id,  applicant_id,  overtime_reason,  start_time,  end_time,  total_time,  progress,  available_time,  status,  del,  remarks,  create_time,  personnel_time,  save_time,  img_url )
+        VALUES
+        <foreach collection="list" item="overtimeApplication" separator=",">
+            (  #{overtimeApplication.id},  #{overtimeApplication.applicantId},  #{overtimeApplication.overtimeReason},  #{overtimeApplication.startTime},  #{overtimeApplication.endTime},  #{overtimeApplication.totalTime},  #{overtimeApplication.progress},  #{overtimeApplication.availableTime},  #{overtimeApplication.status},  #{overtimeApplication.del},  #{overtimeApplication.remarks},  #{overtimeApplication.createTime},  #{overtimeApplication.personnelTime},  #{overtimeApplication.saveTime},  #{overtimeApplication.imgUrl}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findOvertimeApplicationListByCondition1" parameterType="OvertimeApplication" resultType="OvertimeApplication">
+        select T.id,T.overtime_reason,T.start_time,T.end_time,T.total_time,B.name as auditors,A.status as auditorStatuses,T.status,A.sort,T.remarks as personnelRemarks,A.remarks,T.create_time
+        from overtime_application T
+        left join overtime_check A on T.id=A.overtime_id
+        left join worker B on A.auditor_id=B.id
+        <where>
+            <if test="applicantId!=null">
+                T.applicant_id = #{applicantId}
+            </if>
+            <if test="startTime!=null">
+                and T.start_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.end_time &lt; #{endTime}
+            </if>
+            <if test="status!=null">
+                and T.status=#{status}
+            </if>
+            <if test="ids.size>0">
+                and  T.id IN
+                <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        <include refid="sort"/>
+    </select>
+
+
+    <select id="findOvertimeApplicationsByAuditor" parameterType="OvertimeObj" resultType="OvertimeApplication">
+        select T.id,T.applicant_id,B.name,T.overtime_reason,T.start_time,T.end_time,T.total_time,A.status,A.auditor_id,(select B.name from worker B where B.id=A.auditor_id) as auditorName,A.next_sort,T.create_time
+        from overtime_application T
+        left join overtime_check A on T.id=A.overtime_id
+        left join worker B on T.applicant_id=B.id
+        <where>
+            A.auditor_id=#{auditorId}
+            and  A.status=#{status}
+            <if test="status==0">
+                and  A.sort &lt;=T.progress
+            </if>
+            <if test="startTime!=null">
+                and T.start_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.end_time &lt; #{endTime}
+            </if>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findOvertimeApplicationsByPersonnelMatters" parameterType="OvertimeObj" resultType="OvertimeForPersonnelMatters">
+        select B.id,B.name,B.department_id,COUNT( CASE WHEN T.status='0' and T.progress=-1 THEN 1 ELSE NULL END ) AS totalUnaudited
+        from worker B
+        left join overtime_application T
+        on T.applicant_id=B.id
+        <where>
+            B.work_number !='admin'
+            <if test="name!=null">
+                and B.name like concat('%',#{name},'%')
+            </if>
+            <if test="departmentId!=null">
+                and B.department_id=#{departmentId}
+            </if>
+        </where>
+        GROUP BY B.id
+        ORDER BY B.work_number
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findOvertimeApplicationsByPersonnelMattersCount" parameterType="OvertimeObj" resultType="long">
+        select COUNT(*)  from worker
+        <where>
+            work_number !='admin'
+            <if test="name!=null">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="departmentId!=null">
+                and department_id=#{departmentId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findOvertimeApplicationsByWorkerId" parameterType="OvertimeObj" resultType="OvertimeApplication">
+        select T.id,B.name,T.overtime_reason,T.start_time,T.end_time,T.total_time,GROUP_CONCAT((SELECT B.name from worker B where A.auditor_id=B.id GROUP BY A.id))as auditors,GROUP_CONCAT(A.status) as auditorStatuses,T.status,T.create_time
+        from overtime_application T
+        left join overtime_check A on T.id=A.overtime_id
+        left join worker B on T.applicant_id=B.id
+        <where>
+            B.id=#{workerId}
+            and  T.status=#{status}
+            and  T.progress=-1
+            <if test="startTime!=null">
+                and T.start_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.end_time &lt; #{endTime}
+            </if>
+        </where>
+        GROUP BY T.id
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findOvertimeApplicationsByWorkerIdCount" parameterType="OvertimeObj" resultType="long">
+        select count(*) from
+        (select count(T.id)
+        from overtime_application T
+        left join overtime_check A on T.id=A.overtime_id
+        left join worker B on T.applicant_id=B.id
+        <where>
+            B.id=#{workerId}
+            and  T.status=#{status}
+            and  T.progress=-1
+            <if test="startTime!=null">
+                and T.start_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.end_time &lt; #{endTime}
+            </if>
+        </where>
+        GROUP BY T.id) M
+    </select>
+
+    <select id="findMyRemainingTime" parameterType="OvertimeApplication" resultType="OvertimeApplication">
+       SELECT SUM(T.available_time) as myTime from overtime_application T where T.applicant_id=#{applicantId}
+    </select>
+
+
+    <select id="findOvertimeApplicationsCountByAuditor" parameterType="OvertimeObj" resultType="long">
+        select COUNT(T.id)
+        from overtime_application T
+        left join overtime_check A on T.id=A.overtime_id
+        left join worker B on T.applicant_id=B.id
+        <where>
+            A.auditor_id=#{auditorId}
+            and  A.status=#{status}
+            <if test="status==0">
+                and  A.sort &lt;=T.progress
+            </if>
+            <if test="startTime!=null">
+                and T.start_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.end_time &lt; #{endTime}
+            </if>
+        </where>
+    </select>
+
+
+    <update id="updateAllByAuditor" parameterType="OvertimeApplication">
+       update overtime_application
+       set progress=#{progress}
+       where id=#{id}
+    </update>
+
+    <update id="updateAllByPersonnelMatters" parameterType="OvertimeApplication">
+       update overtime_application
+       set status=#{status},
+       available_time=#{availableTime},
+       save_time=#{saveTime},
+       personnel_time=#{personnelTime}
+       where id=#{id}
+    </update>
+
+
+
+    <select id="findOvertimeApplicationDetail"  resultType="OvertimeApplication">
+        select T.id,T.overtime_reason,T.start_time,T.end_time,T.total_time,(SELECT B.name from worker B where T.applicant_id=B.id) as applicantName,B.name as auditors,A.status as auditorStatuses,T.status,A.sort,T.remarks as personnelRemarks,A.remarks,A.through_time,T.personnel_time,T.img_url
+        from overtime_application T
+        left join overtime_check A on T.id=A.overtime_id
+        left join worker B on A.auditor_id=B.id
+        where T.id=#{id}
+    </select>
+
+    <select id="findOvertimeApplicationListByApId" parameterType="OvertimeApplication" resultType="OvertimeApplication">
+        SELECT T.id from overtime_application T where T.applicant_id=#{applicantId}
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <update id="ClearOvertime">
+        update overtime_application T set T.available_time= '0' WHERE T.available_time!='0'
+    </update>
+
+
+    <select id="exportOvertime" resultType="java.util.LinkedHashMap">
+        SELECT A.`name`,T.start_time,T.end_time,T.total_time,T.total_time/8 as days from overtime_application T left join worker A on T.applicant_id=A.id where T.end_time like concat('%',#{dataTime},'%') ORDER BY A.work_number,T.id
+    </select>
+
+
+    <select id="myOvertimeRecord" parameterType="OvertimeApplication" resultType="OvertimeApplication">
+        SELECT T.id,T.start_time,T.end_time,A.status as auditorStatuses,T.status,A.next_sort from overtime_application T  LEFT JOIN overtime_check A on T.id=A.overtime_id
+        <where>
+            <if test="startTime!=null">
+                T.start_time like concat(#{startTime},'%')
+            </if>
+            <if test="applicantId!=null">
+                and T.applicant_id=#{applicantId}
+            </if>
+        </where>
+    </select>
+</mapper>

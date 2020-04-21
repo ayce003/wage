@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycjd.payslip.dao.login.LoginDao">
+    <!--########################################################################################################################-->
+    <select id="findLoginListByCondition" parameterType="Worker" resultType="Worker">
+      select * from worker T
+        <where>
+            T.status='1'
+            and T.del='0'
+        <if test="workNumber!=null">
+            and (T.work_number=#{workNumber} or T.tel=#{workNumber})
+        </if>
+        <if test="password!=null">
+            and T.password=#{password}
+        </if>
+        </where>
+    </select>
+</mapper>

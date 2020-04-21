@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycjd.payslip.dao.worker.IWorkerDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('workNumber')">
+                             T.work_number,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('password')">
+                             T.password,
+                         </if>
+                         <if test="!pager.excludes.contains('sex')">
+                             T.sex,
+                         </if>
+                         <if test="!pager.excludes.contains('age')">
+                             T.age,
+                         </if>
+                         <if test="!pager.excludes.contains('imgUrl')">
+                             T.img_url,
+                         </if>
+                         <if test="!pager.excludes.contains('email')">
+                             T.email,
+                         </if>
+                         <if test="!pager.excludes.contains('tel')">
+                             T.tel,
+                         </if>
+                         <if test="!pager.excludes.contains('roleType')">
+                             T.role_type,
+                         </if>
+                         <if test="!pager.excludes.contains('roleName')">
+                             T.role_name,
+                         </if>
+                         <if test="!pager.excludes.contains('departmentId')">
+                             T.department_id,
+                         </if>
+                         <if test="!pager.excludes.contains('postId')">
+                             T.post_id,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="workNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='workNumber'">
+                            and T.work_number like concat('%',#{workNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.work_number=#{workNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                            and T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                            and T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="password!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='password'">
+                            and T.password like concat('%',#{password},'%')
+                         </when>
+                         <otherwise>
+                            and T.password=#{password}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="sex!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='sex'">
+                            and T.sex like concat('%',#{sex},'%')
+                         </when>
+                         <otherwise>
+                            and T.sex=#{sex}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="age!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='age'">
+                            and T.age like concat('%',#{age},'%')
+                         </when>
+                         <otherwise>
+                            and T.age=#{age}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="imgUrl!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='imgUrl'">
+                            and T.img_url like concat('%',#{imgUrl},'%')
+                         </when>
+                         <otherwise>
+                            and T.img_url=#{imgUrl}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="email!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='email'">
+                            and T.email like concat('%',#{email},'%')
+                         </when>
+                         <otherwise>
+                            and T.email=#{email}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="tel!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='tel'">
+                            and T.tel like concat('%',#{tel},'%')
+                         </when>
+                         <otherwise>
+                            and T.tel=#{tel}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="roleType!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='roleType'">
+                            and T.role_type like concat('%',#{roleType},'%')
+                         </when>
+                         <otherwise>
+                            and T.role_type=#{roleType}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="roleName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='roleName'">
+                            and T.role_name like concat('%',#{roleName},'%')
+                         </when>
+                         <otherwise>
+                            and T.role_name=#{roleName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="departmentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='departmentId'">
+                            and T.department_id like concat('%',#{departmentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.department_id=#{departmentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="postId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='postId'">
+                            and T.post_id like concat('%',#{postId},'%')
+                         </when>
+                         <otherwise>
+                            and T.post_id=#{postId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findWorkerListByCondition" parameterType="Worker" resultType="Worker">
+        select
+         <include refid="projection"/>
+         from worker T
+            <where>
+                work_number !='admin' and T.del=0
+                <if test="id!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='id'">
+                            T.id like concat('%',#{id},'%')
+                        </when>
+                        <otherwise>
+                            T.id=#{id}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="workNumber!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='workNumber'">
+                            and T.work_number like concat('%',#{workNumber},'%')
+                        </when>
+                        <otherwise>
+                            and T.work_number=#{workNumber}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="name!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='name'">
+                            and T.name like concat('%',#{name},'%')
+                        </when>
+                        <otherwise>
+                            and T.name=#{name}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="password!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='password'">
+                            and T.password like concat('%',#{password},'%')
+                        </when>
+                        <otherwise>
+                            and T.password=#{password}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="sex!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='sex'">
+                            and T.sex like concat('%',#{sex},'%')
+                        </when>
+                        <otherwise>
+                            and T.sex=#{sex}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="age!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='age'">
+                            and T.age like concat('%',#{age},'%')
+                        </when>
+                        <otherwise>
+                            and T.age=#{age}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="imgUrl!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='imgUrl'">
+                            and T.img_url like concat('%',#{imgUrl},'%')
+                        </when>
+                        <otherwise>
+                            and T.img_url=#{imgUrl}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="email!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='email'">
+                            and T.email like concat('%',#{email},'%')
+                        </when>
+                        <otherwise>
+                            and T.email=#{email}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="tel!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='tel'">
+                            and T.tel like concat('%',#{tel},'%')
+                        </when>
+                        <otherwise>
+                            and T.tel=#{tel}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="roleType!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='roleType'">
+                            and T.role_type like concat('%',#{roleType},'%')
+                        </when>
+                        <otherwise>
+                            and T.role_type=#{roleType}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="roleName!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='roleName'">
+                            and T.role_name like concat('%',#{roleName},'%')
+                        </when>
+                        <otherwise>
+                            and T.role_name=#{roleName}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="departmentId!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='departmentId'">
+                            and T.department_id like concat('%',#{departmentId},'%')
+                        </when>
+                        <otherwise>
+                            and T.department_id=#{departmentId}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="postId!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='postId'">
+                            and T.post_id like concat('%',#{postId},'%')
+                        </when>
+                        <otherwise>
+                            and T.post_id=#{postId}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="status!=null">
+                    and T.status=#{status}
+                </if>
+                <if test="createTime!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                        </when>
+                        <otherwise>
+                            and T.create_time=#{createTime}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="updateTime!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                        </when>
+                        <otherwise>
+                            and T.update_time=#{updateTime}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                    <foreach collection="pager.rangeArray" item="item"  index="i">
+                        <if test="i==0 and item!=null">
+                            and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                        </if>
+                        <if test="i==1 and item!=null">
+                            and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                        </if>
+                    </foreach>
+
+                </if>
+            </where>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findWorkerCountByCondition" parameterType="Worker" resultType="long">
+        select count(*) from worker T
+        <where>
+            work_number !='admin' and T.del = 0
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="workNumber!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='workNumber'">
+                        and T.work_number like concat('%',#{workNumber},'%')
+                    </when>
+                    <otherwise>
+                        and T.work_number=#{workNumber}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="password!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='password'">
+                        and T.password like concat('%',#{password},'%')
+                    </when>
+                    <otherwise>
+                        and T.password=#{password}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sex!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='sex'">
+                        and T.sex like concat('%',#{sex},'%')
+                    </when>
+                    <otherwise>
+                        and T.sex=#{sex}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="age!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='age'">
+                        and T.age like concat('%',#{age},'%')
+                    </when>
+                    <otherwise>
+                        and T.age=#{age}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="imgUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='imgUrl'">
+                        and T.img_url like concat('%',#{imgUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.img_url=#{imgUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="email!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='email'">
+                        and T.email like concat('%',#{email},'%')
+                    </when>
+                    <otherwise>
+                        and T.email=#{email}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        and T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        and T.tel=#{tel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="roleType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='roleType'">
+                        and T.role_type like concat('%',#{roleType},'%')
+                    </when>
+                    <otherwise>
+                        and T.role_type=#{roleType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="roleName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='roleName'">
+                        and T.role_name like concat('%',#{roleName},'%')
+                    </when>
+                    <otherwise>
+                        and T.role_name=#{roleName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="departmentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='departmentId'">
+                        and T.department_id like concat('%',#{departmentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.department_id=#{departmentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="postId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='postId'">
+                        and T.post_id like concat('%',#{postId},'%')
+                    </when>
+                    <otherwise>
+                        and T.post_id=#{postId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="status!=null">
+                and T.status=#{status}
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </select>
+    <select id="findWorkerById" resultType="Worker">
+        select * from worker where  del = 0 AND  id=#{id}
+    </select>
+    <select id="findOneWorkerByCondition" parameterType="Worker" resultType="Worker">
+        select
+         <include refid="projection"/>
+         from worker T
+        <include refid="match"/>
+    </select>
+    <insert id="saveWorker" parameterType="Worker">
+        insert into worker
+         (
+            id,
+            work_number,
+            name,
+            password,
+            sex,
+            age,
+            img_url,
+            email,
+            tel,
+            role_type,
+            role_name,
+            department_id,
+            post_id,
+            status,
+            create_time,
+            update_time,
+            del
+        ) values
+         (
+                #{id}
+                ,
+                #{workNumber}
+                ,
+                #{name}
+                ,
+                #{password}
+                ,
+                #{sex}
+                ,
+                #{age}
+                ,
+                #{imgUrl}
+                ,
+                #{email}
+                ,
+                #{tel}
+                ,
+                #{roleType}
+                ,
+                #{roleName}
+                ,
+                #{departmentId}
+                ,
+                #{postId}
+                ,
+                #{status}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                
+         )
+    </insert>
+    <update id="updateWorker" parameterType="Worker">
+        update worker
+        <set>
+                    <if test="workNumber!=null ">
+                        work_number=#{workNumber},
+                    </if>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="password!=null ">
+                        password=#{password},
+                    </if>
+                    <if test="sex!=null ">
+                        sex=#{sex},
+                    </if>
+                    <if test="age!=null ">
+                        age=#{age},
+                    </if>
+                    <if test="imgUrl!=null ">
+                        img_url=#{imgUrl},
+                    </if>
+                    <if test="email!=null ">
+                        email=#{email},
+                    </if>
+                    <if test="tel!=null ">
+                        tel=#{tel},
+                    </if>
+                    <if test="roleType!=null ">
+                        role_type=#{roleType},
+                    </if>
+                    <if test="roleName!=null ">
+                        role_name=#{roleName},
+                    </if>
+                    <if test="departmentId!=null ">
+                        department_id=#{departmentId},
+                    </if>
+                    <if test="postId!=null ">
+                        post_id=#{postId},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="del!=null">
+                        del=#{del},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteWorker" >
+        delete from worker where id=#{id}
+    </delete>
+    <delete id="deleteWorkerByCondition" >
+        delete T from worker T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveWorker" parameterType="Worker">
+        INSERT INTO worker (  id,  work_number,  name,  password,  sex,  age,  img_url,  email,  tel,  role_type,  role_name,  department_id,  post_id,  status,  create_time,  update_time, del )
+        VALUES
+        <foreach collection="list" item="worker" separator=",">
+            (  #{worker.id},  #{worker.workNumber},  #{worker.name},  #{worker.password},  #{worker.sex},  #{worker.age},  #{worker.imgUrl},  #{worker.email},  #{worker.tel},  #{worker.roleType},  #{worker.roleName},  #{worker.departmentId},  #{worker.postId},  #{worker.status},  now(),  #{worker.updateTime} ,#{worker.del} )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findWorkerListByCondition2" parameterType="Worker" resultType="Worker">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('password')">
+                        T.password,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('age')">
+                        T.age,
+                    </if>
+                    <if test="!pager.excludes.contains('imgUrl')">
+                        T.img_url,
+                    </if>
+                    <if test="!pager.excludes.contains('postId')">
+                        T.post_id,
+                    </if>
+                    <if test="!pager.excludes.contains('email')">
+                        T.email,
+                    </if>
+                    <if test="!pager.excludes.contains('tel')">
+                        T.tel,
+                    </if>
+                    <if test="!pager.excludes.contains('role')">
+                        T.role,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('departmentId')">
+                        T.department_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        ,D.dept_name,P.post_name
+        FROM worker  T LEFT join  dept  D  on  T.department_id = D.id left join post P on T.post_id = P.id
+        <where>
+              work_number !='admin' and T.del=0
+            <if test="id!=null">
+                and T.id=#{id}
+            </if>
+            <if test="name!=null">
+                and T.name like concat('%',#{name},'%')
+            </if>
+            <if test="password!=null">
+                and T.password=#{password}
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="age!=null">
+                and T.age=#{age}
+            </if>
+            <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+            </if>
+            <if test="email!=null">
+                and T.email=#{email}
+            </if>
+            <if test="tel!=null">
+                and T.tel=#{tel}
+            </if>
+            <if test="roleType!=null">
+                and T.role_type=#{roleType}
+            </if>
+            <if test="roleName!=null">
+                and T.role_name=#{roleName}
+            </if>
+            <if test="departmentId!=null">
+                and T.department_id=#{departmentId}
+            </if>
+            <if test="postId!=null">
+                and T.post_id=#{postId}
+            </if>
+            <if test="workNumber!=null">
+                and T.work_number=#{workNumber}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+            </if>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+
+
+    <!--导出员工查询-->
+    <select id="findWorkerListForExportWorkerByCondition" parameterType="Worker" resultType="java.util.LinkedHashMap">
+        SELECT
+        T.*,
+        D.dept_name,
+        P.post_name,
+        R.title
+        FROM
+        worker T
+        LEFT JOIN dept D ON T.department_id = D.id
+        LEFT JOIN post P ON T.post_id = P.id
+        LEFT JOIN work_role WR ON T.id = WR.work_id
+        LEFT JOIN role R ON WR.role_id = R.id
+        WHERE
+        T.work_number != 'admin' and T.del = 0
+        GROUP BY
+        T.id
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+</mapper>

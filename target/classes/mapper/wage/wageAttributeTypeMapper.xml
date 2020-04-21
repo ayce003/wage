@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycjd.payslip.dao.wage.IWageAttributeTypeDao">
+    <!--########################################################################################################################-->
+    <select id="findWageAttributeTypeListByCondition" parameterType="WageAttributeType" resultType="WageAttributeType">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('wageTypeId')">
+                             T.wage_type_id,
+                         </if>
+                         <if test="!pager.excludes.contains('wageAttributeId')">
+                             T.wage_attribute_id,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from wage_attribute_type T
+        <where>
+              <if test="wageTypeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='wageTypeId'">
+                             T.wage_type_id like concat('%',#{wageTypeId},'%')
+                         </when>
+                         <otherwise>
+                             T.wage_type_id=#{wageTypeId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="wageAttributeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='wageAttributeId'">
+                            and T.wage_attribute_id like concat('%',#{wageAttributeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.wage_attribute_id=#{wageAttributeId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="sort!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='sort'">
+                            and T.sort like concat('%',#{sort},'%')
+                         </when>
+                         <otherwise>
+                            and T.sort=#{sort}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findWageAttributeTypeCountByCondition" parameterType="WageAttributeType" resultType="long">
+        select count(*) from wage_attribute_type T
+        <where>
+              <if test="wageTypeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='wageTypeId'">
+                             T.wage_type_id like concat('%',#{wageTypeId},'%')
+                         </when>
+                         <otherwise>
+                             T.wage_type_id=#{wageTypeId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="wageAttributeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='wageAttributeId'">
+                            and T.wage_attribute_id like concat('%',#{wageAttributeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.wage_attribute_id=#{wageAttributeId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="sort!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='sort'">
+                            and T.sort like concat('%',#{sort},'%')
+                         </when>
+                         <otherwise>
+                            and T.sort=#{sort}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findWageAttributeTypeById" resultType="WageAttributeType">
+        select * from wage_attribute_type where id=#{id}
+    </select>
+    <select id="findOneWageAttributeTypeByCondition" parameterType="WageAttributeType" resultType="WageAttributeType">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('wageTypeId')">
+                             T.wage_type_id,
+                         </if>
+                         <if test="!pager.excludes.contains('wageAttributeId')">
+                             T.wage_attribute_id,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from wage_attribute_type T
+        <where>
+              <if test="wageTypeId!=null">
+                 T.wage_type_id=#{wageTypeId}
+              </if>
+              <if test="wageAttributeId!=null">
+                and T.wage_attribute_id=#{wageAttributeId}
+              </if>
+              <if test="sort!=null">
+                and T.sort=#{sort}
+              </if>
+        </where>
+    </select>
+    <insert id="saveWageAttributeType" parameterType="WageAttributeType">
+        insert into wage_attribute_type
+         (
+            id,
+            wage_type_id,
+            wage_attribute_id,
+            sort
+        ) values
+         (
+                #{id}
+                ,
+                #{wageTypeId}
+                ,
+                #{wageAttributeId}
+                ,
+                #{sort}
+
+         )
+    </insert>
+    <update id="updateWageAttributeType" parameterType="WageAttributeType">
+        update wage_attribute_type
+        <set>
+                    <if test="wageTypeId!=null ">
+                        wage_type_id=#{wageTypeId},
+                    </if>
+                    <if test="wageAttributeId!=null ">
+                        wage_attribute_id=#{wageAttributeId},
+                    </if>
+                    <if test="sort!=null ">
+                        sort=#{sort},
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteWageAttributeType" >
+        delete from wage_attribute_type where id=#{id}
+    </delete>
+    <delete id="deleteWageAttributeTypeByCondition" >
+        delete from wage_attribute_type
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="wageTypeId!=null">
+                and wage_type_id=#{wageTypeId}
+              </if>
+              <if test="wageAttributeId!=null">
+                and wage_attribute_id=#{wageAttributeId}
+              </if>
+              <if test="sort!=null">
+                and sort=#{sort}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveWageAttributeType" parameterType="WageAttributeType">
+        INSERT INTO wage_attribute_type (  id,  wage_type_id,  wage_attribute_id,  sort )
+        VALUES
+        <foreach collection="list" item="wageAttributeType" separator=",">
+            (  #{wageAttributeType.id},  #{wageAttributeType.wageTypeId},  #{wageAttributeType.wageAttributeId},  #{wageAttributeType.sort}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <delete id="deleteWageAttributeTypeByTypeId" >
+        delete from wage_attribute_type where wage_type_id=#{id}
+    </delete>
+
+    <select id="findWageAttributeTypeByTypeId" resultType="WageSortList">
+       SELECT
+	T.id,
+	A.wage_type_id,
+	A.sort,
+	T.attribute_name
+FROM
+wage_attribute T
+	LEFT JOIN wage_attribute_type A ON T.id = A.wage_attribute_id
+
+    where    A.wage_type_id=#{id}
+    </select>
+</mapper>

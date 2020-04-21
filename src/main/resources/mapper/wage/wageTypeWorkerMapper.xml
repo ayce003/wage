@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycjd.payslip.dao.wage.IWageTypeWorkerDao">
+    <!--########################################################################################################################-->
+    <select id="findWageTypeWorkerListByCondition" parameterType="WageTypeWorker" resultType="WageTypeWorker">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('workNumber')">
+                             T.work_number,
+                         </if>
+                         <if test="!pager.excludes.contains('wageTypeId')">
+                             T.wage_type_id,
+                         </if>
+                         <if test="!pager.excludes.contains('releaseTime')">
+                             T.release_time,
+                         </if>
+                         <if test="!pager.excludes.contains('releaseState')">
+                             T.release_state,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('workerId')">
+                             T.worker_id,
+                         </if>
+                         <if test="!pager.excludes.contains('salaryTime')">
+                             T.salary_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from wage_type_worker T
+        <where>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                             T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                             T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="workNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='workNumber'">
+                            and T.work_number like concat('%',#{workNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.work_number=#{workNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="wageTypeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='wageTypeId'">
+                            and T.wage_type_id like concat('%',#{wageTypeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.wage_type_id=#{wageTypeId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="releaseTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='releaseTime'">
+                            and T.release_time like concat('%',#{releaseTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.release_time=#{releaseTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="releaseState!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='releaseState'">
+                            and T.release_state like concat('%',#{releaseState},'%')
+                         </when>
+                         <otherwise>
+                            and T.release_state=#{releaseState}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="workerId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='workerId'">
+                            and T.worker_id like concat('%',#{workerId},'%')
+                         </when>
+                         <otherwise>
+                            and T.worker_id=#{workerId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="salaryTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='salaryTime'">
+                            and T.salary_time like concat('%',#{salaryTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.salary_time=#{salaryTime}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findWageTypeWorkerCountByCondition" parameterType="WageTypeWorker" resultType="long">
+        select count(*) from wage_type_worker T
+        <where>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                             T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                             T.name=#{name}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="workNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='workNumber'">
+                            and T.work_number like concat('%',#{workNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.work_number=#{workNumber}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="wageTypeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='wageTypeId'">
+                            and T.wage_type_id like concat('%',#{wageTypeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.wage_type_id=#{wageTypeId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="releaseTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='releaseTime'">
+                            and T.release_time like concat('%',#{releaseTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.release_time=#{releaseTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="releaseState!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='releaseState'">
+                            and T.release_state like concat('%',#{releaseState},'%')
+                         </when>
+                         <otherwise>
+                            and T.release_state=#{releaseState}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="workerId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='workerId'">
+                            and T.worker_id like concat('%',#{workerId},'%')
+                         </when>
+                         <otherwise>
+                            and T.worker_id=#{workerId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="salaryTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='salaryTime'">
+                            and T.salary_time like concat('%',#{salaryTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.salary_time=#{salaryTime}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findWageTypeWorkerById" resultType="WageTypeWorker">
+        select * from wage_type_worker where id=#{id}
+    </select>
+    <select id="findOneWageTypeWorkerByCondition" parameterType="WageTypeWorker" resultType="WageTypeWorker">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('workNumber')">
+                             T.work_number,
+                         </if>
+                         <if test="!pager.excludes.contains('wageTypeId')">
+                             T.wage_type_id,
+                         </if>
+                         <if test="!pager.excludes.contains('releaseTime')">
+                             T.release_time,
+                         </if>
+                         <if test="!pager.excludes.contains('releaseState')">
+                             T.release_state,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+
+                         <if test="!pager.excludes.contains('workerId')">
+                             T.worker_id,
+                         </if>
+                         <if test="!pager.excludes.contains('salaryTime')">
+                             T.salary_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from wage_type_worker T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="workNumber!=null">
+                and T.work_number=#{workNumber}
+              </if>
+              <if test="wageTypeId!=null">
+                and T.wage_type_id=#{wageTypeId}
+              </if>
+              <if test="releaseTime!=null">
+                and T.release_time=#{releaseTime}
+              </if>
+              <if test="releaseState!=null">
+                and T.release_state=#{releaseState}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+
+              <if test="workerId!=null">
+                and T.worker_id=#{workerId}
+              </if>
+              <if test="salaryTime!=null">
+                and T.salary_time=#{salaryTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveWageTypeWorker" parameterType="WageTypeWorker">
+        insert into wage_type_worker
+         (
+            id,
+            name,
+            work_number,
+            wage_type_id,
+            release_time,
+            release_state,
+            create_time,
+            worker_id,
+            salary_time
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{workNumber}
+                ,
+                #{wageTypeId}
+                ,
+                #{releaseTime}
+                ,
+                #{releaseState}
+                ,
+                now()
+                ,
+                #{workerId}
+                ,
+                #{salaryTime}
+                
+         )
+    </insert>
+    <update id="updateWageTypeWorker" parameterType="WageTypeWorker">
+        update wage_type_worker
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="workNumber!=null ">
+                        work_number=#{workNumber},
+                    </if>
+                    <if test="wageTypeId!=null ">
+                        wage_type_id=#{wageTypeId},
+                    </if>
+                    <if test="releaseTime!=null ">
+                        release_time=#{releaseTime},
+                    </if>
+                    <if test="releaseState!=null ">
+                        release_state=#{releaseState},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="workerId!=null ">
+                        worker_id=#{workerId},
+                    </if>
+                    <if test="salaryTime!=null ">
+                        salary_time=#{salaryTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteWageTypeWorker" >
+        delete from wage_type_worker where id=#{id}
+    </delete>
+    <delete id="deleteWageTypeWorkerByCondition" >
+        delete from wage_type_worker
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="workNumber!=null">
+                and work_number=#{workNumber}
+              </if>
+              <if test="wageTypeId!=null">
+                and wage_type_id=#{wageTypeId}
+              </if>
+              <if test="releaseTime!=null">
+                and release_time=#{releaseTime}
+              </if>
+              <if test="releaseState!=null">
+                and release_state=#{releaseState}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+
+              <if test="workerId!=null">
+                and worker_id=#{workerId}
+              </if>
+              <if test="salaryTime!=null">
+                and salary_time=#{salaryTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveWageTypeWorker" parameterType="WageTypeWorker">
+        INSERT INTO wage_type_worker (  id,  name,  work_number,  wage_type_id,  release_time,  release_state,  create_time,   worker_id,  salary_time )
+        VALUES
+        <foreach collection="list" item="wageTypeWorker" separator=",">
+            (  #{wageTypeWorker.id},  #{wageTypeWorker.name},  #{wageTypeWorker.workNumber},  #{wageTypeWorker.wageTypeId},  #{wageTypeWorker.releaseTime},  #{wageTypeWorker.releaseState},  #{wageTypeWorker.createTime},   #{wageTypeWorker.workerId},  #{wageTypeWorker.salaryTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findWageValueByTypeId" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+        SELECT T.id,T.work_number,T.name,T.release_time,T.release_state,T.salary_time,B.email,B.tel,
+        <foreach collection="wageTypeList" item="wageType" separator="," index="index">
+            MAX(CASE A.wage_attribute_id WHEN #{wageType.wageAttributeId} THEN  CONCAT_WS(",",A.value_size,A.salt)  ELSE 0 END) AS #{wageType.wageAttributeId}
+        </foreach>
+        FROM wage_type_worker T
+        INNER JOIN wage_value A ON A.record_id = T.id
+        INNER JOIN worker B ON T.worker_id=B.id
+        <where>
+            <if test="name!=null">
+                and  T.name like "%"#{name}"%"
+            </if>
+            <if test="releaseState!=null">
+                and  T.release_state in (${releaseState})
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and T.release_time  between #{startTime} and #{endTime}
+            </if>
+        </where>
+        and T.wage_type_id = #{id}
+        GROUP BY T.id
+        order by T.work_number,T.salary_time
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findWageValueByRecordId" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+        SELECT T.name,T.work_number,T.salary_time,
+        <foreach collection="WageTypeRecordList" item="WageTypeRecord" separator="," index="index">
+            MAX(CASE A.wage_attribute_id WHEN #{WageTypeRecord.wageAttributeId} THEN CONCAT_WS(",",A.value_size,A.salt) ELSE 0 END) AS #{WageTypeRecord.wageAttributeId}
+        </foreach>
+        FROM wage_type_worker T
+        INNER JOIN wage_value A ON A.record_id = T.id
+        WHERE A.record_id = #{id}
+        GROUP BY T.id
+    </select>
+
+
+    <select id="findWageAttributeListByRecordId" parameterType="WageTypeWorker" resultType="WageTypeWorker">
+       SELECT T.wage_attribute_id from wage_value T inner join wage_type_worker A on A.id=T.record_id inner join
+				wage_attribute B on T.wage_attribute_id=B.id
+				where T.record_id=#{id}
+    </select>
+
+    <select id="findWageValueByTypeIdCount" parameterType="WageTypeWorker" resultType="long">
+        SELECT count(*) FROM wage_type_worker T
+        <where>
+            <if test="name!=null">
+                and  T.name like "%"#{name}"%"
+            </if>
+            <if test="releaseState!=null">
+                and  T.release_state in (${releaseState})
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and T.release_time  between #{startTime} and #{endTime}
+            </if>
+            <if test="wageTypeId!=null">
+                and T.wage_type_id = #{wageTypeId}
+            </if>
+        </where>
+
+    </select>
+
+
+    <select id="findWageValueByWorkerIdCount" parameterType="WageTypeWorker" resultType="long">
+        SELECT count(*) FROM wage_type_worker T
+        <where>
+            <if test="workerId!=null">
+                and T.worker_id = #{workerId}
+            </if>
+            <if test="salaryTime!=null">
+                and T.salary_time = #{salaryTime}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="findWageTypeWorkerListByWorkNum" parameterType="WageTypeWorker" resultType="WageTypeWorker">
+        select * from wage_type_worker T
+        <where>
+            <if test="name!=null">
+                and  T.name = #{name}
+            </if>
+            <if test="workNumber!=null">
+                and  T.work_number = #{workNumber}
+            </if>
+            <if test="salaryTime!=null">
+                and  T.salary_time = #{salaryTime}
+            </if>
+         
+        </where>
+    </select>
+
+    <select id="findWageworkerIdByRecordId" parameterType="WageTypeWorker" resultType="WageTypeWorker">
+        select  worker_id from wage_type_worker where id=#{id}
+    </select>
+
+
+
+    <select id="findWageValueByRecordAndTypeId" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+        SELECT T.id,T.work_number,T.name,T.release_time,T.release_state,T.salary_time,B.email,
+        <foreach collection="wageTypeList" item="wageType" separator="," index="index">
+            MAX(CASE A.wage_attribute_id WHEN #{wageType.wageAttributeId} THEN CONCAT_WS(",",A.value_size,A.salt) ELSE 0 END) AS #{wageType.wageAttributeId}
+        </foreach>
+        FROM wage_type_worker T
+        INNER JOIN wage_value A ON A.record_id = T.id
+        INNER JOIN worker B ON T.worker_id=B.id
+        where T.wage_type_id = #{typeId} and T.release_state='1'
+        and T.id= #{recordId}
+        group by T.id
+    </select>
+
+    <select id="findWageValueByEamilAndTypeId" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+        SELECT T.id,T.work_number,T.name,T.release_time,T.release_state,T.salary_time,B.email,
+        <foreach collection="wageTypeList" item="wageType" separator="," index="index">
+            MAX(CASE A.wage_attribute_id WHEN #{wageType.wageAttributeId} THEN CONCAT_WS(",",A.value_size,A.salt) ELSE 0 END) AS #{wageType.wageAttributeId}
+        </foreach>
+        FROM wage_type_worker T
+        INNER JOIN wage_value A ON A.record_id = T.id
+        INNER JOIN worker B ON T.worker_id=B.id
+        where T.wage_type_id = #{typeId} and T.release_state='1'
+        <!--and B.email in
+        <foreach collection="allEmail" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>-->
+        group by T.id
+    </select>
+
+    <select id="findWageValueByTelAndTypeId" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+        SELECT T.id,T.work_number,T.name,T.release_time,T.release_state,T.salary_time,B.tel,
+        <foreach collection="wageTypeList" item="wageType" separator="," index="index">
+            MAX(CASE A.wage_attribute_id WHEN #{wageType.wageAttributeId} THEN CONCAT_WS(",",A.value_size,A.salt) ELSE 0 END) AS #{wageType.wageAttributeId}
+        </foreach>
+        FROM wage_type_worker T
+        INNER JOIN wage_value A ON A.record_id = T.id
+        INNER JOIN worker B ON T.worker_id=B.id
+        where T.wage_type_id = #{typeId} and T.release_state='1'
+        <!--and B.tel in
+        <foreach collection="allTel" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>-->
+        group by T.id
+    </select>
+
+    <select id="findWageAttributeListByWorkerId" parameterType="WageTypeWorker" resultType="WageTypeWorker">
+        SELECT DISTINCT T.wage_attribute_id from wage_value T inner join wage_type_worker A on A.id=T.record_id inner join
+        wage_attribute B on T.wage_attribute_id=B.id
+        <where>
+            <if test="workerId!=null">
+            A.worker_id=#{workerId}
+            </if>
+            <if test="salaryTime!=null">
+                and A.salary_time=#{salaryTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="findWageValueByWorkerId" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+        SELECT T.name,T.work_number,T.salary_time,
+        <foreach collection="WageTypeWorkerList" item="WageTypeWorker" separator="," index="index">
+            MAX(CASE A.wage_attribute_id WHEN #{WageTypeWorker.wageAttributeId} THEN CONCAT_WS(",",A.value_size,A.salt) ELSE 0 END) AS #{WageTypeWorker.wageAttributeId}
+        </foreach>
+        FROM wage_type_worker T
+        INNER JOIN wage_value A ON A.record_id = T.id
+        <where>
+            <if test="id!=null">
+                T.worker_id=#{id}
+            </if>
+            <if test="salaryTime!=null">
+                and T.salary_time=#{salaryTime}
+            </if>
+        </where>
+        GROUP BY T.salary_time
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findWageAttributeNameByWorkerId" parameterType="WageTypeWorker" resultType="WageTypeWorker">
+        select DISTINCT A.wage_attribute_id,B.attribute_name
+        from wage_type_worker T  left join wage_attribute_type A on T.wage_type_id=A.wage_type_id
+        left join wage_attribute B on A.wage_attribute_id=B.id
+        <where>
+        <if test="workerId!=null">
+            T.worker_id=#{workerId}
+        </if>
+        <if test="salaryTime!=null">
+            and T.salary_time=#{salaryTime}
+        </if>
+    </where>
+    ORDER BY CAST(A.sort AS SIGNED),A.wage_attribute_id
+</select>
+
+</mapper>

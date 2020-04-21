@@ -1,0 +1,65 @@
+server:
+  port: 9966
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  application:
+    name: payslip
+  profiles:
+    active: dev
+  #邮件配置
+  #Tip:本地测试 window 请修改C:\Windows\System32\drivers\etc\hosts
+  #添加四行
+  #192.168.102.134 www.ycjdzx.com
+  #192.168.102.134 mail.ycjdzx.com
+  #192.168.102.134 smtp.ycjdzx.com
+  #192.168.102.134 imap.ycjdzx.com
+  mail:
+      host: smtp.ayce.com #SMTP服务器地址
+      username: test@ayce.com #登陆账号
+      password: a12345678 #登陆密码（或授权码）
+      properties:
+        from: test@ayce.com #邮件发信人（即真实邮箱）
+        mail:
+          smtp:
+            auth: false
+  servlet:
+      multipart:
+        max-file-size: 10MB #限制单个文件大小
+        max-request-size: 50MB #限制请求总量
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: file:${uploadpic.path}
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.ycjd.payslip.pojo
+  configuration:
+    cache-enabled: false
+    lazy-loading-enabled: true
+    default-statement-timeout: 20000
+    aggressive-lazy-loading: false
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+logging:
+  path: ./_log
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      valueEncoder: kryo
+      valueDecoder: kryo
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: kryo
+      valueDecoder: kryo
+      uri: redis://:${spring.redis.password}@${spring.redis.host}:${spring.redis.port}/
+
+
+
+  

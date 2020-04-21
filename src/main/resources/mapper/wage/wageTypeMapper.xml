@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycjd.payslip.dao.wage.IWageTypeDao">
+    <!--########################################################################################################################-->
+    <select id="findWageTypeListByCondition" parameterType="WageType" resultType="WageType">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('typeName')">
+                             T.type_name,
+                         </if>
+                         <if test="!pager.excludes.contains('state')">
+                             T.state,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from wage_type T
+        <where>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                             T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                             T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="typeName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='typeName'">
+                            and T.type_name like concat('%',#{typeName},'%')
+                         </when>
+                         <otherwise>
+                            and T.type_name=#{typeName}
+                         </otherwise>
+                      </choose>
+              </if>
+
+              <if test="state!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='state'">
+                            and T.state like concat('%',#{state},'%')
+                         </when>
+                         <otherwise>
+                            and T.state=#{state}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findWageTypeCountByCondition" parameterType="WageType" resultType="long">
+        select count(*) from wage_type T
+        <where>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                             T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                             T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="typeName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='typeName'">
+                            and T.type_name like concat('%',#{typeName},'%')
+                         </when>
+                         <otherwise>
+                            and T.type_name=#{typeName}
+                         </otherwise>
+                      </choose>
+            </if>
+
+              <if test="state!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='state'">
+                            and T.state like concat('%',#{state},'%')
+                         </when>
+                         <otherwise>
+                            and T.state=#{state}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findWageTypeById" resultType="WageType">
+        select * from wage_type where id=#{id}
+    </select>
+    <select id="findOneWageTypeByCondition" parameterType="WageType" resultType="WageType">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('typeName')">
+                             T.type_name,
+                         </if>
+
+                         <if test="!pager.excludes.contains('state')">
+                             T.state,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from wage_type T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="typeName!=null">
+                and T.type_name=#{typeName}
+              </if>
+
+              <if test="state!=null">
+                and T.state=#{state}
+              </if>
+        </where>
+    </select>
+    <insert id="saveWageType" parameterType="WageType">
+        insert into wage_type
+         (
+            id,
+            create_time,
+            type_name,
+            state
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{typeName}
+                ,
+                #{state}
+                
+         )
+    </insert>
+    <update id="updateWageType" parameterType="WageType">
+        update wage_type
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="typeName!=null ">
+                        type_name=#{typeName},
+                    </if>
+
+                    <if test="state!=null ">
+                        state=#{state}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteWageType" >
+        delete from wage_type where id=#{id}
+    </delete>
+    <delete id="deleteWageTypeByCondition" >
+        delete from wage_type
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="typeName!=null">
+                and type_name=#{typeName}
+              </if>
+
+              <if test="state!=null">
+                and state=#{state}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveWageType" parameterType="WageType">
+        INSERT INTO wage_type (  id,  create_time,  type_name,   state )
+        VALUES
+        <foreach collection="list" item="wageType" separator=",">
+            (  #{wageType.id},  #{wageType.createTime},  #{wageType.typeName},  #{wageType.state}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findWageTypeListByCondition1" parameterType="WageType" resultType="WageType">
+        SELECT
+        T.id,T.type_name,T.create_time,GROUP_CONCAT(B.attribute_name) as inclusionproperty,T.state
+        FROM
+        wage_type T
+        LEFT JOIN wage_attribute_type A ON T.id=A.wage_type_id
+        LEFT JOIN wage_attribute B on A.wage_attribute_id=B.id
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="typeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='typeName'">
+                        and T.type_name like concat('%',#{typeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.type_name=#{typeName}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="state!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='state'">
+                        and T.state like concat('%',#{state},'%')
+                    </when>
+                    <otherwise>
+                        and T.state=#{state}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        GROUP BY T.id
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+
+    <update id="updateWageTypeState" parameterType="WageType">
+        update wage_type set state=1 where id=#{id}
+    </update>
+
+
+    <select id="findWageTypeListByState" parameterType="WageType" resultType="WageType">
+      SELECT * FROM wage_type T where T.state=#{state}
+    </select>
+
+    <select id="findWageAttributeListByTypeId" parameterType="WageType" resultType="WageType">
+      SELECT A.wage_attribute_id,B.attribute_name,A.sort
+      from wage_type T
+      left join wage_attribute_type A on T.id=A.wage_type_id
+      left join wage_attribute B on A.wage_attribute_id=B.id
+      WHERE T.id=#{id}
+      ORDER BY CAST(A.sort AS SIGNED),A.wage_attribute_id
+    </select>
+
+    <select id="findWageTypeListByConditionNotState" parameterType="WageType" resultType="WageType">
+        select * from wage_type where type_name=#{typeName}
+    </select>
+
+</mapper>

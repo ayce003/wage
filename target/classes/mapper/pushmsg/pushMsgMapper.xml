@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycjd.payslip.dao.pushmsg.IPushMsgDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('applicantId')">
+                             T.applicant_id,
+                         </if>
+                         <if test="!pager.excludes.contains('message')">
+                             T.message,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="applicantId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='applicantId'">
+                            and T.applicant_id like concat('%',#{applicantId},'%')
+                         </when>
+                         <otherwise>
+                            and T.applicant_id=#{applicantId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="message!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='message'">
+                            and T.message like concat('%',#{message},'%')
+                         </when>
+                         <otherwise>
+                            and T.message=#{message}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findPushMsgListByCondition" parameterType="PushMsg" resultType="PushMsg">
+        select
+         <include refid="projection"/>
+         from push_msg T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findPushMsgCountByCondition" parameterType="PushMsg" resultType="long">
+        select count(*) from push_msg T
+        <include refid="match"/>
+    </select>
+    <select id="findPushMsgById" resultType="PushMsg">
+        select * from push_msg where id=#{id}
+    </select>
+    <select id="findOnePushMsgByCondition" parameterType="PushMsg" resultType="PushMsg">
+        select
+         <include refid="projection"/>
+         from push_msg T
+        <include refid="match"/>
+    </select>
+    <insert id="savePushMsg" parameterType="PushMsg">
+        insert into push_msg
+         (
+            id,
+            applicant_id,
+            message
+        ) values
+         (
+                #{id}
+                ,
+                #{applicantId}
+                ,
+                #{message}
+                
+         )
+    </insert>
+    <update id="updatePushMsg" parameterType="PushMsg">
+        update push_msg
+        <set>
+                    <if test="applicantId!=null ">
+                        applicant_id=#{applicantId},
+                    </if>
+                    <if test="message!=null ">
+                        message=#{message}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deletePushMsg" >
+        delete from push_msg where id=#{id}
+    </delete>
+    <delete id="deletePushMsgByCondition" >
+        delete T from push_msg T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSavePushMsg" parameterType="PushMsg">
+        INSERT INTO push_msg (  id,  applicant_id,  message )
+        VALUES
+        <foreach collection="list" item="pushMsg" separator=",">
+            (  #{pushMsg.id},  #{pushMsg.applicantId},  #{pushMsg.message}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>
