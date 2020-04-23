@@ -58,7 +58,8 @@ jetcache:
       keyConvertor: fastjson
       valueEncoder: kryo
       valueDecoder: kryo
-      uri: redis:/${spring.redis.host}:${spring.redis.port}/
+      host:127.0.0.1
+      port:6379
 
 
 
